@@ -7,7 +7,7 @@
         None
     }
 
-    internal class Armor : Item
+    internal class Armor : Item, IEquipable
     {
         public readonly ArmorType armorType;
         private int defense = 0;
@@ -21,6 +21,18 @@
                 AssignStats();
             else
                 armorType = ArmorType.None;
+        }
+
+        public bool Equipped { get; set; }
+
+        public void Equip()
+        {
+            Equipped = true;
+        }
+
+        public void Unequip()
+        {
+            Equipped = false;
         }
 
         private void AssignStats()
@@ -40,5 +52,7 @@
             weight += random.Next(1, 10);
             defense += random.Next(1, 10);
         }
+
+        protected override int InternalSortOrder  { get { return 1; } }
     }
 }

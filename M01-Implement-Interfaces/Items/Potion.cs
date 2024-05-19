@@ -18,7 +18,7 @@
         Speed
     }
 
-    internal class Potion : Item
+    internal class Potion : Item, IConsumable
     {
         private PotionModifier modifier;
 
@@ -49,5 +49,14 @@
             }
             return name + append;
         }
+
+        public void Consume()
+        {
+            Consumed = true;
+        }
+
+        protected override int InternalSortOrder { get { return 4;} }
+
+        public bool Consumed { get; set; }
     }
 }

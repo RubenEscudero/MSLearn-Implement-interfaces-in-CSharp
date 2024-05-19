@@ -49,5 +49,14 @@
             else
                 return RuneType.None;
         }
+
+        protected override int InternalSortOrder
+        {
+            get
+            {
+                return materialType == MaterialType.Rune ? 5 :
+                    materialType == MaterialType.Herb ? 6 : 7;
+            }
+        }
     }
 }

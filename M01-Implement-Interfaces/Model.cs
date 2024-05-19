@@ -20,21 +20,40 @@ namespace Solution
         
         public string GetItemAction()
         {
+            if (selectedItems[0] is IEquipable)
+                return equip;
+            
+            if (selectedItems[0] is IConsumable)
+                return consume;
+
             return none;
         }
 
         public List<Item> GetEquipables()
         {
-            return inventory;
+            List<Item> items = new();
+
+            foreach (Item item in inventory)
+                if (item is IEquipable)
+                    items.Add(item);
+
+            return items;
         }
 
         public List<Item> GetConsumables()
         {
-            return inventory;
+            List<Item> items = new();
+
+            foreach (Item item in inventory)
+                if (item is IConsumable)
+                    items.Add(item);
+
+            return items;         
         }
 
         public List<Item> GetAllItems()
         {
+            inventory.Sort();
             return inventory;
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace M01_Implement_Interfaces.Items
 {
-    internal class Food : Item
+    internal class Food : Item, IConsumable
     {
         private readonly bool ingredient = false;
 
@@ -21,5 +21,14 @@
             
             return name.Replace("_", " ").Trim();
         }
+
+        public void Consume()
+        {
+            Consumed = true;
+        }
+
+        protected override int InternalSortOrder { get { return 3; } }
+
+        public bool Consumed { get; set; }
     }
 }
