@@ -12,7 +12,7 @@ namespace M02_Implement_Interfaces.Items
         Axe
     }
 
-    internal class Weapon : Item, IEquipable
+    internal class Weapon : Item, IEquipable, ICombinable
     {
         private readonly Random random = new();
         private readonly WeaponClass weaponClass;
@@ -106,6 +106,16 @@ namespace M02_Implement_Interfaces.Items
                     break;
             }
             return new Weapon(name, image, WeaponClass.Hammer);
+        }
+
+        public bool CanCombine(Item item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Items? Combine(Item item)
+        {
+            throw new NotImplementedException();
         }
 
         protected override int InternalSortOrder { get { return 2; } }
