@@ -2,7 +2,7 @@
 
 namespace M02_Implement_Interfaces.Items
 {
-    internal class Food : Item, IConsumable
+    internal class Food : Item, IConsumable, ICombinable
     {
         private readonly Random random = new();
         private readonly bool ingredient = false;
@@ -70,6 +70,22 @@ namespace M02_Implement_Interfaces.Items
                 name = name[name.IndexOf("_")..].Trim();
 
             return name.Replace("_", " ").Trim();
+        }
+
+        public bool CanCombine(Item item)
+        {
+            if (item != null && item is Food food)
+                return this.ingredient && food.ingredient;
+
+            return false;
+        }
+
+        public Item? Combine(Item item)
+        {
+            if (CanCombine(item))
+                return CreateRandomFood();
+
+            return null;
         }
 
         protected override int InternalSortOrder { get { return 3; } }

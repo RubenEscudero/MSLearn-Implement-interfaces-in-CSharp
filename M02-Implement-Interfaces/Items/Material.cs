@@ -19,7 +19,7 @@ namespace M02_Implement_Interfaces.Items
         None
     }
 
-    internal class Material : Item
+    internal class Material : Item, ICombinable
     {
         private readonly MaterialType materialType;
         private readonly RuneType runeType;
@@ -103,6 +103,22 @@ namespace M02_Implement_Interfaces.Items
                 return RuneType.Spirit;
             else
                 return RuneType.None;
+        }
+
+        public bool CanCombine(Item item)
+        {
+            return CreatesPotion(item) || CreatesWeapon(item);
+        }
+
+        public Item? Combine(Item item)
+        {
+            if (CreatesPotion(item))
+                return CreateRandomPotion();
+            
+            else if (CreatesWeapon(item))
+                return ((Weapon) item).Combine(this);
+
+            return null;
         }
 
         protected override int InternalSortOrder

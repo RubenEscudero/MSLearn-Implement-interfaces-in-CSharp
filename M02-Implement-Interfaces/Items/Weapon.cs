@@ -110,12 +110,21 @@ namespace M02_Implement_Interfaces.Items
 
         public bool CanCombine(Item item)
         {
-            throw new NotImplementedException();
+            if (item == null)
+                return false;
+
+            if (item is Material material)
+                return material.GetMaterialType() == MaterialType.Rune;
+
+            return false;
         }
 
-        public Items? Combine(Item item)
+        public Item? Combine(Item item)
         {
-            throw new NotImplementedException();
+            if (CanCombine(item))
+                return CreateRandomWeapon((Material) item);
+
+            return null;
         }
 
         protected override int InternalSortOrder { get { return 2; } }

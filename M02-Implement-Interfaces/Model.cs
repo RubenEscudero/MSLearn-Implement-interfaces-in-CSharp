@@ -20,14 +20,15 @@ namespace Solution
 
         public string GetItemAction()
         {
-            if (selectedItems.Count == 2)
+            if (selectedItems.Count == 2 && selectedItems[0] is ICombinable material)
             {
-                // return combine
+                if (material.CanCombine(selectedItems[1]))
+                    return craft;
             }
             else if (selectedItems.Count == 1)
             {
-                if (selectedItems[0] is IEquipable)
-                    return equip;
+                if (selectedItems[0] is IEquipable equipable)
+                    return equipable.Equipped ? unequip : equip;
 
                 else if (selectedItems[0] is IConsumable)
                     return consume;
@@ -39,18 +40,26 @@ namespace Solution
         {
             if (selectedItems.Count == 1)
             {
-                if (selectedItems[0] is IEquipable)
+                if (selectedItems[0] is IEquipable equipable)
                 {
-                    // equip or unequip
+                    if (equipable.Equipped)
+                        equipable.Unequip();
+                    else
+                        equipable.Equip();
                 }
-                else if (selectedItems[0] is IConsumable)
+                else if (selectedItems[0] is IConsumable consumable)
                 {
-                    // consume
+                    consumable.Consume();
                 }
             }
-            else if (selectedItems.Count == 2)
+            else if (selectedItems.Count == 2 && selectedItems[0] is ICombinable material)
             {
-                // combine
+                Item? newItem = material.Combine(selectedItems[1]);
+
+                if (newItem != null)
+                    inventory.Add(newItem);
+
+                return newItem;
             }
             return null;
         }
