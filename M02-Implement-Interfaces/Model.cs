@@ -88,7 +88,17 @@ namespace Solution
 
         public List<Item> GetCraftables()
         {
-            return inventory;
+            List<Item> items = new List<Item>();
+
+            foreach (Item item in inventory)
+                if (item is ICombinable)
+                {
+                    if (item is Food food && !food.IsIngredient())
+                        continue;
+                    
+                    items.Add(item);
+                }
+            return items;
         }
 
         public void SetSelectedItems(List<Item> selectedItems)

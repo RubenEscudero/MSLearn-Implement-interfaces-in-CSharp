@@ -14,7 +14,7 @@ namespace Solution
         private readonly List<Item> inventory;
         private List<Item> selectedItems;
 
-        public static bool ScrollsImplemented = false;
+        public static bool ScrollsImplemented = true;
 
         public Model(List<Item> inventory)
         {
@@ -37,6 +37,10 @@ namespace Solution
             {
                 return consume;
             }
+            else if (selectedItems[0] is IReadable readable)
+            {
+                return readable.Readed ? markAsNew : read;
+            } 
             return none;
         }
 
@@ -55,6 +59,13 @@ namespace Solution
                 {
                     consumable.Consume();
                 }
+                else if (selectedItems[0] is IReadable readable)
+                {
+                    if (readable.Readed)
+                        readable.MarkAsNew();
+                    else
+                        readable.Read();
+                }
             }
             else if (selectedItems.Count == 2 && selectedItems[0] is ICombinable material)
             {
@@ -70,7 +81,13 @@ namespace Solution
 
         public List<Item> GetReadables()
         {
-            return null;
+            List<Item> items = new();
+            foreach (Item item in inventory)
+            {
+                if (item is IReadable)
+                    items.Add(item);
+            }
+            return items;    
         }
 
         public List<Item> GetEquipables()
